@@ -42,7 +42,7 @@ public abstract class Account {
 		throw new InvalidAuthenticationException("email veya þifre hatalý");
 	}
 	
-	protected abstract void addInsurance(Insurance insurance);
+	abstract void addInsurance(Insurance insurance);
 	public void addAddress(Address address){
         if(!isAuthenticated())
             return;
