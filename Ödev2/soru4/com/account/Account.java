@@ -12,11 +12,11 @@ import com.user.User;
 
 
 
-public abstract class Account {
+public abstract class Account implements Comparable<Account>{
 
 	private User user;
-	private List<Insurance> insuranceList;
 	private AuthenticationStatus authenticationStatus ;
+	private List<Insurance> insuranceList;
 	
 	
 	
@@ -43,19 +43,9 @@ public abstract class Account {
 	}
 	
 	abstract void addInsurance(Insurance insurance);
-	public void addAddress(Address address){
-        if(!isAuthenticated())
-            return;
-
-        AddressManager.addAddress(user, address);
-    }
-
-    public void removeAddress(Address address){
-        if(!isAuthenticated())
-            return;
-
-        AddressManager.removeAddress(user, address);
-    }
+	
+	
+	
     
     public List<Insurance> getInsurances() {
         return insuranceList;
@@ -65,5 +55,50 @@ public abstract class Account {
     public boolean isAuthenticated(){
         return AuthenticationStatus.SUCCESS.equals(authenticationStatus);
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authenticationStatus == null) ? 0 : authenticationStatus.hashCode());
+		result = prime * result + ((insuranceList == null) ? 0 : insuranceList.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (authenticationStatus != other.authenticationStatus)
+			return false;
+		if (insuranceList == null) {
+			if (other.insuranceList != null)
+				return false;
+		} else if (!insuranceList.equals(other.insuranceList))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
+	
+	
+    
 }
